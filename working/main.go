@@ -14,7 +14,7 @@ func main() {
 		if err != nil {
 			log.Fatal(err)
 		}
-		fmt.Fprintf(w, "Hello, %s", d)
+		fmt.Fprintf(w, "Hello, %s/n", d)
 	})
 	http.HandleFunc("/bye", func(w http.ResponseWriter, r *http.Request) {
 		log.Println("Bye, World!")
