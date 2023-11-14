@@ -12,9 +12,10 @@ func main() {
 		log.Println("Hello, World!")
 		d, err := ioutil.ReadAll(r.Body)
 		if err != nil {
-			log.Fatal(err)
+			http.Error(w, "Oops, something went wrong", http.StatusBadRequest)
+			return
 		}
-		fmt.Fprintf(w, "Hello, %s/n", d)
+		fmt.Fprintf(w, "Hello, %s\n", d)
 	})
 	http.HandleFunc("/bye", func(w http.ResponseWriter, r *http.Request) {
 		log.Println("Bye, World!")
