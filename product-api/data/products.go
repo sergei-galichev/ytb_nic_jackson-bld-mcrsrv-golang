@@ -23,6 +23,11 @@ type Products []*Product
 func (p *Products) ToJSON(w io.Writer) error {
 	return json.NewEncoder(w).Encode(p)
 }
+
+func (p *Product) FromJSON(r io.Reader) error {
+	return json.NewDecoder(r).Decode(p)
+}
+
 func GetProducts() Products {
 	return productList
 }
