@@ -3,6 +3,8 @@ package handlers
 import (
 	"log"
 	"net/http"
+	"regexp"
+	"strconv"
 	"ytb_nic_jackson-bld-mcrsrv-golang/product-api/data"
 )
 
@@ -22,6 +24,24 @@ func (p *Products) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	} else if r.Method == http.MethodPost {
 		p.addProduct(w, r)
 		return
+	} else if r.Method == http.MethodPut {
+		reg := regexp.MustCompile(`/([0-9]+)`)
+		grp := reg.FindAllStringSubmatch(r.URL.Path, -1)
+		if len(grp) != 1 {
+			http.Error(w, "Invalid URI", http.StatusBadRequest)
+			return
+		}
+		if len(grp[0]) != 2 {
+			http.Error(w, "Invalid URI", http.StatusBadRequest)
+			return
+		}
+		idString := grp[0][1]
+		id, err := strconv.Atoi(idString)
+		if err != nil {
+			http.Error(w, "Invalid URI", http.StatusBadRequest)
+			return
+		}
+		p.l.Println("Found id", id)
 	}
 
 	// catch all
